@@ -1,0 +1,206 @@
+Handling lib "SD"...
+Handling lib "arduino-compat"...
+Handling lib "arduino-spi"...
+The --lib flag was not given for it, checking repository
+The --lib flag was not given for it, checking repository
+The --lib flag was not given for it, checking repository
+Prebuilt binary for "arduino-spi" already exists
+Prepared local dir: "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi"
+Lib "arduino-compat" is already handled, skipping
+Handling lib "spi"...
+The --lib flag was not given for it, checking repository
+Prebuilt binary for "arduino-compat" already exists
+Prepared local dir: "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat"
+Prebuilt binary for "spi" already exists
+Prepared local dir: "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi"
+Falling back to sources for "SD" (failed to fetch prebuilt binary: got 404 status code when accessed https://github.com/briancouchman/SD/releases/download/1.25/libSD-esp32.a)
+Prepared local dir: "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD"
+The flag --repo is not given, going to use mongoose-os repository
+Sources: [/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/mgos_vs1053_c.c /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/VS1053.cpp /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/mgos_vs1053.cpp]
+Include dirs: [/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include]
+Binary libs: []
+Building...
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053" to "/app"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/mongoose-os" to "/mongoose-os"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/mongoose-os" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/mongoose-os"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include"
+mount from "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen" to "/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen"
+Docker arguments: run --name mos_build_2018-02-03T22-41-29-00_4343518666726459735 --rm -i -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053:/app -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/mongoose-os:/mongoose-os -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/mongoose-os:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/mongoose-os -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include -v /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen:/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen docker.cesanta.com/esp32-build:3.0-rc1-r1 /bin/bash -c nice make '-j' '8' '-C' '/app' '-f' '/mongoose-os/fw/platforms/esp32/Makefile.build' '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib/libmoslib.a' 'ESP_IDF_EXTRA_COMPONENTS= fatfs wear_levelling sdmmc' 'ESP_IDF_SDKCONFIG_OPTS=' 'FFI_SYMBOLS=' 'APP_CFLAGS=-DF_CPU=160000000 -DMGOS_HAVE_SPI=1 -DMGOS_HAVE_ARDUINO_SPI=1 -DMGOS_HAVE_SD=1 -DMGOS_HAVE_ARDUINO_COMPAT=1 -DARDUINO=150 -DESP32=1' 'FW_DIR=build/fw' 'MANIFEST_FINAL=/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen/mos_final.yml' 'MGOS_HAVE_SD=1' 'BUILD_DIR=/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs' 'APP_SOURCES=/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/mgos_vs1053_c.c /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/VS1053.cpp /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/mgos_vs1053.cpp' 'APP_FS_FILES=' 'APP_CXXFLAGS=-DMGOS_HAVE_ARDUINO_SPI=1 -DMGOS_HAVE_SD=1 -DMGOS_HAVE_ARDUINO_COMPAT=1 -DARDUINO=150 -DESP32=1 -DF_CPU=160000000 -DMGOS_HAVE_SPI=1' 'MGOS_HAVE_SPI=1' 'MGOS_HAVE_ARDUINO_COMPAT=1' 'MGOS_HAVE_ARDUINO_SPI=1' 'MGOS_PATH=/mongoose-os' 'APP_BIN_LIBS=' 'APP=vs1053' 'APP_CONF_SCHEMA=/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen/mos_conf_schema.yml' 'MGOS_ENABLE_SPI_GPIO=0' 'GEN_DIR=/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen' 'APP_VERSION=1.0' 'PLATFORM=esp32' 'FS_STAGING_DIR=build/fs' 'APP_INCLUDES=/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include' 'MGOS_MAIN_COMPONENT=moslib'
+make: Entering directory '/app'
+including /opt/Espressif/esp-idf/components/bootloader/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/bootloader_support/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/esp32/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/esptool_py/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/partition_table/Makefile.projbuild...
+/mongoose-os/fw/platforms/esp32/Makefile.build:181: warning: overriding recipe for target 'defconfig'
+/opt/Espressif/esp-idf/make/project_config.mk:71: warning: ignoring old recipe for target 'defconfig'
+/mongoose-os/fw/platforms/esp32/Makefile.build:181: warning: overriding recipe for target 'menuconfig'
+/opt/Espressif/esp-idf/make/project_config.mk:58: warning: ignoring old recipe for target 'menuconfig'
+#
+# configuration written to /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen/sdkconfig
+#
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cs_mbedtls'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/sdmmc'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/xtensa-debug-module'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wear_levelling'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/fatfs'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cs_mbedtls'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spiffs'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/sdmmc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wear_levelling'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cryptoauthlib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/xtensa-debug-module'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/tcpip_adapter'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/fatfs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/vfs'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spiffs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spi_flash'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cryptoauthlib'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/pthread'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/soc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/tcpip_adapter'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spi_flash'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/partition_table'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/vfs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wpa_supplicant'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/partition_table'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/pthread'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/nvs_flash'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/micro-ecc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/soc'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/newlib'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/log'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wpa_supplicant'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/heap'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/micro-ecc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/nvs_flash'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/newlib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/log'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/freertos'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/expat'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/heap'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esptool_py'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esptool_py'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp_adc_cal'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/ethernet'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cxx'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/expat'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/freertos'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/ethernet'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/driver'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp_adc_cal'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/lwip'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_update'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cxx'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader_support'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_trace'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp32'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/driver'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_update'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/lwip'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader_support'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp32'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_trace'
+including /opt/Espressif/esp-idf/components/bootloader/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/bootloader_support/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/esp32/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/esptool_py/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/partition_table/Makefile.projbuild...
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/sdmmc'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cs_mbedtls'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/fatfs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wear_levelling'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/xtensa-debug-module'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spiffs'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/fatfs'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cs_mbedtls'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cryptoauthlib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wear_levelling'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/sdmmc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/xtensa-debug-module'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/tcpip_adapter'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spiffs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/vfs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spi_flash'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cryptoauthlib'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/pthread'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/soc'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/partition_table'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/tcpip_adapter'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/partition_table'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/spi_flash'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wpa_supplicant'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/vfs'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/log'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/micro-ecc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/soc'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/nvs_flash'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/newlib'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/pthread'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/wpa_supplicant'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/log'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/heap'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/micro-ecc'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/nvs_flash'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/expat'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/newlib'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esptool_py'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/freertos'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esptool_py'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp_adc_cal'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/ethernet'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/lwip'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/heap'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/expat'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/freertos'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp_adc_cal'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cxx'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/ethernet'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp32'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/driver'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/lwip'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_update'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader_support'
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_trace'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/esp32'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/cxx'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/driver'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_update'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/bootloader_support'
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/app_trace'
+including /opt/Espressif/esp-idf/components/bootloader/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/bootloader_support/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/esp32/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/esptool_py/Makefile.projbuild...
+including /opt/Espressif/esp-idf/components/partition_table/Makefile.projbuild...
+make[1]: Entering directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib'
+  GEN   /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen/mgos_config.c
+  GEN   /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/gen/mgos_ro_vars.c
+CC mgos_vs1053_c.o
+CXX VS1053.o
+CXX mgos_vs1053.o
+/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/VS1053.cpp:21:1: warning: missing initializer for member 'mgos_spi_txn::<anonymous>' [-Wmissing-field-initializers]
+ };
+ ^
+/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/VS1053.cpp:27:1: warning: missing initializer for member 'mgos_spi_txn::<anonymous>' [-Wmissing-field-initializers]
+ };
+ ^
+AR /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib/libmoslib.a
+make[1]: Leaving directory '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib'
+Target 'component-moslib-build' responsible for '/Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/build/objs/moslib/libmoslib.a'
+make: Leaving directory '/app'
+Target build/objs/moslib/libmoslib.a is built successfully

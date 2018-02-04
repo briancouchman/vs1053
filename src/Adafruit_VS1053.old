@@ -1,0 +1,584 @@
+#include "Arduino.h"
+#include "mgos_SD.h"
+// #include "mgos_spi.h"
+#include "mgos_timers.h"
+#include "mgos_gpio.h"
+#include "SPI.h"
+// #include <Wire.h>
+
+#include "Adafruit_VS1053.h"
+
+#define digitalPinToInterrupt(x) x
+
+#define VS1053_CONTROL_SPI_SETTING  SPISettings(250000,  MSBFIRST, SPI_MODE0)
+#define VS1053_DATA_SPI_SETTING     SPISettings(8000000, MSBFIRST, SPI_MODE0)
+
+static Adafruit_VS1053_FilePlayer *myself;
+
+volatile bool feedBufferLock = false;
+static void gpio_callback_feeder(int pin, void* arg) {
+  printf("interrupt called\n");
+  myself->feedBuffer();
+}
+static void timer_callback_feeder(void* arg) {
+  printf("interrupt called\n");
+  myself->feedBuffer();
+}
+
+SD* sd;
+FILE* currentTrack;
+struct mgos_spi *spi;
+
+Adafruit_VS1053::Adafruit_VS1053(int8_t rst, int8_t cs, int8_t dcs, int8_t dreq) {
+  _mosi = 0;
+  _miso = 0;
+  _clk = 0;
+  _reset = rst;
+  _cs = cs;
+  _dcs = dcs;
+  _dreq = dreq;
+}
+
+Adafruit_VS1053_FilePlayer::Adafruit_VS1053_FilePlayer(int8_t rst, int8_t cs, int8_t dcs, int8_t dreq, int8_t cardcs) : Adafruit_VS1053(rst, cs, dcs, dreq) {
+
+  playingMusic = false;
+  _cardCS = cardcs;
+}
+
+uint8_t Adafruit_VS1053::begin(void) {
+
+  printf("Adafruit_VS1053::begin\n");
+
+  if (_reset >= 0) {
+    pinMode(_reset, OUTPUT);
+    digitalWrite(_reset, LOW);
+  }
+
+  pinMode(_cs, OUTPUT);
+  digitalWrite(_cs, HIGH);
+  pinMode(_dcs, OUTPUT);
+  digitalWrite(_dcs, HIGH);
+  pinMode(_dreq, INPUT);
+
+  SPI.begin();
+  SPI.setDataMode(SPI_MODE0);
+  SPI.setBitOrder(MSBFIRST);
+  // SPI.setClockDivider(SPI_CLOCK_DIV128);
+  SPI.setFrequency(8000000);
+
+  printf("_cs %d\n", _cs);
+  printf("_dcs %d\n", _dcs);
+  printf("_dreq %d\n", _dreq);
+
+  // spi = mgos_spi_get_global();
+  // if (spi == NULL) {
+  //   LOG(LL_ERROR, ("SPI is not configured, make sure spi.enable is true"));
+  //   return 0;
+  // }
+
+  sd = mgos_sd_create();
+  mgos_sd_begin (sd, 19, 18, 5, 14);
+
+  // mgos_sd_listFiles(sd);
+
+  reset();
+
+  return (sciRead(VS1053_REG_STATUS) >> 4) & 0x0F;
+}
+
+
+
+
+bool Adafruit_VS1053_FilePlayer::begin(void) {
+  printf("Adafruit_VS1053_FilePlayer::begin\n");
+  // Set the card to be disabled while we get the VS1053 up
+  pinMode(_cardCS, OUTPUT);
+
+  digitalWrite(_cardCS, HIGH);
+
+
+  uint8_t v  = Adafruit_VS1053::begin();
+
+  //dumpRegs();
+  //Serial.print("Version = "); Serial.println(v);
+  return (v == 4);
+}
+
+void Adafruit_VS1053_FilePlayer::sineTest(uint8_t n, uint16_t ms) {
+  reset();
+
+  uint16_t mode = sciRead(VS1053_REG_MODE);
+  printf("mode %d\n", mode);
+  mode |= 0x0020;
+  sciWrite(VS1053_REG_MODE, mode);
+
+  printf("before digitalRead %d\n", _dreq);
+  while (!digitalRead(_dreq));
+	 //  delay(10);
+
+  SPI.beginTransaction(VS1053_DATA_SPI_SETTING);
+
+  digitalWrite(_dcs, LOW);
+  spiwrite(0x53);
+  spiwrite(0xEF);
+  spiwrite(0x6E);
+  spiwrite(n);
+  spiwrite(0x00);
+  spiwrite(0x00);
+  spiwrite(0x00);
+  spiwrite(0x00);
+  digitalWrite(_dcs, HIGH);
+  SPI.endTransaction();
+
+  delay(ms);
+
+  SPI.beginTransaction(VS1053_DATA_SPI_SETTING);
+  digitalWrite(_dcs, LOW);
+  spiwrite(0x45);
+  spiwrite(0x78);
+  spiwrite(0x69);
+  spiwrite(0x74);
+  spiwrite(0x00);
+  spiwrite(0x00);
+  spiwrite(0x00);
+  spiwrite(0x00);
+  digitalWrite(_dcs, HIGH);
+  SPI.endTransaction();
+}
+
+
+
+
+
+
+
+
+bool Adafruit_VS1053_FilePlayer::useInterrupt(int type) {
+  printf("Adafruit_VS1053_FilePlayer::useInterrupt\n");
+  myself = this;  // oy vey
+
+
+
+  // if (type == VS1053_FILEPLAYER_TIMER0_INT) {
+    //'timer_callback {aka void (*)(void*)}
+    printf("Setup timer interrupt");
+    int timer_id = mgos_set_hw_timer(25000, MGOS_TIMER_REPEAT, timer_callback_feeder, NULL);
+    return true;
+  //
+  //   HardwareTimer timer(3);
+  //   // Pause the timer while we're configuring it
+  //   timer.pause();
+  //
+  //   // Set up period
+  //   timer.setPeriod(25000); // in microseconds
+  //
+  //   // Set up an interrupt on channel 1
+  //   timer.setChannel1Mode(TIMER_OUTPUT_COMPARE);
+  //   timer.setCompare(TIMER_CH1, 1);  // Interrupt 1 count after each update
+  //   timer.attachCompare1Interrupt(feeder);
+  //
+  //   // Refresh the timer's count, prescale, and overflow
+  //   timer.refresh();
+  //
+  //   // Start the timer counting
+  //   timer.resume();
+  //
+    return true;
+  // }
+  // if (type == VS1053_FILEPLAYER_PIN_INT) {
+
+    // printf("_dreq %d", _dreq);
+    // int8_t irq = digitalPinToInterrupt(_dreq);
+    // //Serial.print("Using IRQ "); Serial.println(irq);
+    // printf("irq %d", irq);
+    // if (irq == -1)
+    //   return false;
+    //
+    // attachInterrupt(irq, feeder, CHANGE);
+    // return true;
+  //   mgos_gpio_enable_int(_dreq);
+  //   mgos_gpio_set_int_handler(_dreq, MGOS_GPIO_INT_EDGE_ANY, gpio_callback_feeder, NULL);
+  //   return true;
+  // }
+  // return false;
+}
+
+
+bool Adafruit_VS1053_FilePlayer::playFullFile(const char *trackname) {
+  if (! startPlayingFile(trackname)) return false;
+
+  while (playingMusic) {
+    // twiddle thumbs
+    feedBuffer();
+    delay(5);           // give IRQs a chance
+  }
+  // music file finished!
+  return true;
+}
+
+void Adafruit_VS1053_FilePlayer::stopPlaying(void) {
+  // cancel all playback
+  sciWrite(VS1053_REG_MODE, VS1053_MODE_SM_LINE1 | VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_CANCEL);
+
+  // wrap it up!
+  playingMusic = false;
+  // currentTrack.close();
+}
+
+void Adafruit_VS1053_FilePlayer::pausePlaying(bool pause) {
+  if (pause)
+    playingMusic = false;
+  else {
+    playingMusic = true;
+    feedBuffer();
+  }
+}
+
+bool Adafruit_VS1053_FilePlayer::paused(void) {
+  return (!playingMusic /* && currentTrack*/);
+}
+
+bool Adafruit_VS1053_FilePlayer::stopped(void) {
+  return (!playingMusic /* && !currentTrack */);
+}
+
+
+bool Adafruit_VS1053_FilePlayer::startPlayingFile(const char *trackname) {
+  printf("Adafruit_VS1053_FilePlayer::startPlayingFile\n");
+
+  currentTrack = mgos_sd_openFile(sd, trackname, "r");
+
+  // reset playback
+  sciWrite(VS1053_REG_MODE, VS1053_MODE_SM_LINE1 | VS1053_MODE_SM_SDINEW);
+  // // resync
+  sciWrite(VS1053_REG_WRAMADDR, 0x1e29);
+  sciWrite(VS1053_REG_WRAM, 0);
+  //
+  // // don't let the IRQ get triggered by accident here
+  // noInterrupts();
+  //
+  // // As explained in datasheet, set twice 0 in REG_DECODETIME to set time back to 0
+  sciWrite(VS1053_REG_DECODETIME, 0x00);
+  sciWrite(VS1053_REG_DECODETIME, 0x00);
+
+  playingMusic = true;
+
+    setVolume(40, 40);
+
+  // wait till its ready for data
+  // printf ("While ready for data\n", trackname);
+  // while (! readyForData() ) {
+  //
+  // }
+
+  // fill it up!
+  while (playingMusic && readyForData()) {
+    feedBuffer();
+  }
+
+    // useInterrupt(VS1053_FILEPLAYER_PIN_INT);
+
+  // ok going forward, we can use the IRQ
+    printf ("interrupts\n");
+  interrupts();
+
+  return true;
+}
+
+
+void Adafruit_VS1053_FilePlayer::feedBuffer(void) {
+  printf("Adafruit_VS1053_FilePlayer::feedBuffer\n");
+  noInterrupts();
+  // dont run twice in case interrupts collided
+  // This isn't a perfect lock as it may lose one feedBuffer request if
+  // an interrupt occurs before feedBufferLock is reset to false. This
+  // may cause a glitch in the audio but at least it will not corrupt
+  // state.
+  if (feedBufferLock) {
+    interrupts();
+    return;
+  }
+  feedBufferLock = true;
+  interrupts();
+
+  feedBuffer_noLock();
+
+  feedBufferLock = false;
+}
+
+void Adafruit_VS1053_FilePlayer::feedBuffer_noLock(void) {
+  printf("Adafruit_VS1053_FilePlayer::feedBuffer_noLock\n");
+  if ((! playingMusic) /*|| (! currentTrack) || (! readyForData())*/) {
+    return; // paused or stopped
+  }
+
+  // Feed the hungry buffer! :)
+  while (playingMusic /* && readyForData() */) {
+    // Read some audio data from the SD card file
+    uint8_t bytesread = mgos_sd_read(sd, currentTrack, mp3buffer, VS1053_DATABUFFERLEN);
+
+    if (bytesread == 0) {
+      // must be at the end of the file, wrap it up!
+      playingMusic = false;
+      //currentTrack.close();
+      mgos_sd_closeFile(sd, currentTrack);
+      break;
+    }
+
+    // printf("wait\n");
+    // while(!readyForData()){
+    //   //wait for the buffer to be ready to receive more data
+    // }
+
+    playData(mp3buffer, bytesread);
+  }
+}
+
+void Adafruit_VS1053::setVolume(uint8_t left, uint8_t right) {
+  uint16_t v;
+  v = left;
+  v <<= 8;
+  v |= right;
+
+  noInterrupts(); //cli();
+  sciWrite(VS1053_REG_VOLUME, v);
+  interrupts();  //sei();
+}
+
+void Adafruit_VS1053::reset() {
+  // TODO: http://www.vlsi.fi/player_vs1011_1002_1003/modularplayer/vs10xx_8c.html#a3
+  // hardware reset
+  if (_reset >= 0) {
+    digitalWrite(_reset, LOW);
+    delay(100);
+    digitalWrite(_reset, HIGH);
+  }
+  digitalWrite(_cs, HIGH);
+  digitalWrite(_dcs, HIGH);
+  delay(100);
+  softReset();
+  delay(100);
+
+  sciWrite(VS1053_REG_CLOCKF, 0x6000);
+
+  setVolume(40, 40);
+}
+
+
+void Adafruit_VS1053::GPIO_digitalWrite(uint8_t val) {
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_GPIO_ODATA);
+  sciWrite(VS1053_REG_WRAM, val);
+}
+
+void Adafruit_VS1053::GPIO_digitalWrite(uint8_t i, uint8_t val) {
+  if (i > 7) return;
+
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_GPIO_ODATA);
+  uint16_t pins = sciRead(VS1053_REG_WRAM);
+
+  if (val == LOW)
+    pins &= ~_BV(i);
+  if (val == HIGH)
+    pins |= _BV(i);
+
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_GPIO_ODATA);
+  sciWrite(VS1053_REG_WRAM, pins);
+}
+
+uint16_t Adafruit_VS1053::GPIO_digitalRead(void) {
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_GPIO_IDATA);
+  return sciRead(VS1053_REG_WRAM) & 0xFF;
+}
+
+boolean Adafruit_VS1053::GPIO_digitalRead(uint8_t i) {
+  if (i > 7) return 0;
+
+  sciWrite(VS1053_REG_WRAMADDR, VS1053_GPIO_IDATA);
+  uint16_t val = sciRead(VS1053_REG_WRAM);
+  if (val & _BV(i)) return true;
+  return false;
+}
+
+uint16_t Adafruit_VS1053::sciRead(uint8_t addr) {
+  uint16_t data;
+
+  // #ifdef SPI_HAS_TRANSACTION
+  SPI.beginTransaction(VS1053_CONTROL_SPI_SETTING);
+  // #endif
+  digitalWrite(_cs, LOW);
+  spiwrite(VS1053_SCI_READ);
+  spiwrite(addr);
+  delayMicroseconds(10);
+  data = spiread();
+  data <<= 8;
+  data |= spiread();
+  digitalWrite(_cs, HIGH);
+  // #ifdef SPI_HAS_TRANSACTION
+  SPI.endTransaction();
+  // #endif
+
+  printf("sciRead %d \n", data);
+  return data;
+}
+
+
+void Adafruit_VS1053::sciWrite(uint8_t addr, uint16_t data) {
+  // #ifdef SPI_HAS_TRANSACTION
+  SPI.beginTransaction(VS1053_CONTROL_SPI_SETTING);
+  // #endif
+  digitalWrite(_cs, LOW);
+  spiwrite(VS1053_SCI_WRITE);
+  spiwrite(addr);
+  spiwrite(data >> 8);
+  spiwrite(data & 0xFF);
+  digitalWrite(_cs, HIGH);
+  // #ifdef SPI_HAS_TRANSACTION
+  SPI.endTransaction();
+  // #endif
+}
+
+
+
+uint8_t Adafruit_VS1053::spiread(void)
+{
+  int8_t i, x;
+  x = 0;
+
+  // MSB first, clock low when inactive (CPOL 0), data valid on leading edge (CPHA 0)
+  // Make sure clock starts low
+
+  // if (useHardwareSPI) {
+    x = SPI.transfer(0x00);
+
+  // } else {
+  //   for (i=7; i>=0; i--) {
+  //     if ((*misoportreg) & misopin)
+	// x |= (1<<i);
+  //     *clkportreg |= clkpin;
+  //     *clkportreg &= ~clkpin;
+  //     //    asm("nop; nop");
+  //   }
+  //   // Make sure clock ends low
+  //   *clkportreg &= ~clkpin;
+  // }
+
+
+  // printf("spiread ");
+  //
+  // uint8_t tx_data[1] = {0x00};
+  // uint8_t rx_data[3] = {0, 0, 0};
+  // struct mgos_spi_txn txn = {
+  //     .cs = 0, /* Use CS0 line as configured by cs0_gpio */
+  //     .mode = 3,
+  //     .freq = 8000000,
+  // };
+  // /* Half-duplex, command/response transaction setup */
+  // /* Transmit 1 byte from tx_data. */
+  // txn.hd.tx_len = 1;
+  // txn.hd.tx_data = tx_data;
+  // /* No dummy bytes necessary. */
+  // txn.hd.dummy_len = 1;
+  //
+  // txn.hd.rx_len = 1;
+  // txn.hd.rx_data = rx_data;
+  // if (!mgos_spi_run_txn(spi, false /* full_duplex */, &txn)) {
+  //   LOG(LL_ERROR, ("SPI transaction failed"));
+  //   return 0;
+  // }
+  // printf(" 3 bytes %d %d %d\n", rx_data[0], rx_data[1], rx_data[2]);
+
+
+  // return rx_data[0];
+  return x;
+}
+
+void Adafruit_VS1053::spiwrite(uint8_t c)
+{
+
+  uint8_t x __attribute__ ((aligned (32))) = c;
+  spiwrite(&x, 1);
+}
+
+
+void Adafruit_VS1053::spiwrite(uint8_t *c, uint16_t num)
+{
+  // printf("spiwrite %d bytes", num);
+  // MSB first, clock low when inactive (CPOL 0), data valid on leading edge (CPHA 0)
+  // Make sure clock starts low
+  // if (useHardwareSPI) {
+    // #if defined(ESP32)  // optimized
+      SPI.writeBytes(c, num);
+      // return;
+    // #endif
+
+    // while (num--) {
+    //    SPI.transfer(c[0]);
+    //    c++;
+    // }
+
+  // } else {
+  //
+  //   while (num--) {
+  //     for (int8_t i=7; i>=0; i--) {
+  //     	*clkportreg &= ~clkpin;
+  //     	if (c[0] & (1<<i)) {
+  //     	  *mosiportreg |= mosipin;
+  //     	} else {
+  //     	  *mosiportreg &= ~mosipin;
+  //     	}
+  //     	*clkportreg |= clkpin;
+  //     }
+  //     *clkportreg &= ~clkpin;   // Make sure clock ends low
+  //
+  //     c++;
+  //   }
+  // }
+
+  // uint8_t rx_data[3] = {0, 0, 0};
+  // struct mgos_spi_txn txn = {
+  //     .cs = 0, /* Use CS0 line as configured by cs0_gpio */
+  //     .mode = 3,
+  //     .freq = 8000000,
+  // };
+  // /* Half-duplex, command/response transaction setup */
+  // /* Transmit 1 byte from tx_data. */
+  // txn.hd.tx_len = num;//1;
+  // txn.hd.tx_data = c;//tx_data;
+  // /* No dummy bytes necessary. */
+  // txn.hd.dummy_len = 0;
+  // /* Receive 3 bytes into rx_data. */
+  // txn.hd.rx_len = 3;
+  // txn.hd.rx_data = rx_data;
+  // if (!mgos_spi_run_txn(spi, false /* full_duplex */, &txn)) {
+  //   LOG(LL_ERROR, ("SPI transaction failed"));
+  //   return;
+  // }
+}
+
+boolean Adafruit_VS1053::readyForData(void) {
+  printf("Adafruit_VS1053::readyForData\n");
+  return digitalRead(_dreq);
+}
+
+void Adafruit_VS1053::playData(uint8_t *buffer, uint8_t buffsiz) {
+  SPI.beginTransaction(VS1053_DATA_SPI_SETTING);
+
+  digitalWrite(_dcs, LOW);
+  spiwrite(buffer, buffsiz);
+
+  digitalWrite(_dcs, HIGH);
+  SPI.endTransaction();
+}
+
+uint16_t Adafruit_VS1053::decodeTime() {
+  noInterrupts(); //cli();
+  uint16_t t = sciRead(VS1053_REG_DECODETIME);
+  interrupts(); //sei();
+  return t;
+}
+
+
+void Adafruit_VS1053::softReset(void) {
+  sciWrite(VS1053_REG_MODE, VS1053_MODE_SM_SDINEW | VS1053_MODE_SM_RESET);
+  delay(100);
+}

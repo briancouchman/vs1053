@@ -1,0 +1,117 @@
+type: lib
+version: "1.0"
+platform: esp32
+platforms:
+- esp32
+- esp8266
+author: Brian Couchman
+description: VS1053 audio Codec
+sources:
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/mgos_vs1053_c.c
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/VS1053.cpp
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/src/mgos_vs1053.cpp
+includes:
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/include
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/include
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/include
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/include
+- /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/include
+config_schema:
+- - spi
+  - o
+  - title: SPI settings
+- - spi.enable
+  - b
+  - false
+  - title: Enable SPI
+- - spi.debug
+  - b
+  - false
+  - title: Debug SPI bus activity
+- - spi.unit_no
+  - i
+  - 3
+  - title: Which SPI unit to use, 2 or 3
+- - spi.miso_gpio
+  - i
+  - 19
+  - title: GPIO to use for MISO
+- - spi.mosi_gpio
+  - i
+  - 23
+  - title: GPIO to use for MOSI
+- - spi.sclk_gpio
+  - i
+  - 18
+  - title: GPIO to use for SCLK
+- - spi.cs0_gpio
+  - i
+  - 5
+  - title: GPIO to use for CS0
+- - spi.cs1_gpio
+  - i
+  - -1
+  - title: GPIO to use for CS1
+- - spi.cs2_gpio
+  - i
+  - -1
+  - title: GPIO to use for CS2
+- - spi.enable
+  - true
+- - spi.debug
+  - true
+- - spi.miso_gpio
+  - 19
+- - spi.mosi_gpio
+  - 18
+- - spi.sclk_gpio
+  - 5
+- - spi.cs0_gpio
+  - 32
+- - spi.cs1_gpio
+  - 33
+build_vars:
+  ESP_IDF_EXTRA_COMPONENTS: ' fatfs wear_levelling sdmmc'
+  ESP_IDF_SDKCONFIG_OPTS: ""
+  MGOS_ENABLE_SPI_GPIO: "0"
+  MGOS_HAVE_ARDUINO_COMPAT: "1"
+  MGOS_HAVE_ARDUINO_SPI: "1"
+  MGOS_HAVE_SD: "1"
+  MGOS_HAVE_SPI: "1"
+cdefs:
+  ARDUINO: "150"
+  ESP32: "1"
+  F_CPU: "160000000"
+  MGOS_HAVE_ARDUINO_COMPAT: "1"
+  MGOS_HAVE_ARDUINO_SPI: "1"
+  MGOS_HAVE_SD: "1"
+  MGOS_HAVE_SPI: "1"
+tags:
+- c
+- js
+- hw
+libs_version: "1.25"
+modules_version: "1.25"
+mongoose_os_version: "1.25"
+manifest_version: 2017-09-29
+libs_handled:
+- name: SD
+  path: /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD
+  sources:
+  - /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/SD/src
+- name: arduino-compat
+  path: /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat
+  sources:
+  - /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-compat/src
+- name: spi
+  path: /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi
+  sources:
+  - /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/src
+  - /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/spi/src/esp32
+- name: arduino-spi
+  path: /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi
+  deps:
+  - arduino-compat
+  - spi
+  sources:
+  - /Users/bcouchman/Documents/Perso/projects/meeio/electronics/mongooseos/libs/vs1053/deps/arduino-spi/src

@@ -6,13 +6,20 @@
 #include "mgos_spi.h"
 
 
-#define MOSI_PIN 19
-#define MISO_PIN 18
-#define CLOCK_PIN 5
 
+
+#define SDCARD_MISO_PIN 19
+#define SDCARD_MOSI_PIN 18
+#define SDCARD_CLCK_PIN 5
 #define SDCARD_CS_PIN 14
+
+#define VS1053_MISO_PIN 27
+#define VS1053_MOSI_PIN 12
+#define VS1053_CLCK_PIN 13
 #define VS1053_CTL_CS_PIN 32
 #define VS1053_DATA_CS_PIN 33
+#define VS1053_INTERRUPT_PIN 15
+#define VS1053_SPI_HOST 3 //VSPI
 
 
 #define VS1053_FILEPLAYER_TIMER0_INT 255 // allows useInterrupt to accept pins 0 to 254
@@ -60,6 +67,8 @@
 
 #define VS1053_DATABUFFERLEN 32
 
+
+
 class VS1053 {
   public:
     VS1053 ();
@@ -72,19 +81,24 @@ class VS1053 {
     bool paused();
     void setVolume(uint8_t left, uint8_t right);
 
+    void feedBuffer();
+
   private:
-    void initSDCard();
-    void initSPI();
+    int initSDCard();
+    int initSPI();
+    void setupVS1053();
 
-    uint16_t sciRead(uint8_t addr);
-    void sciWrite(uint8_t addr, uint16_t data);
+    bool sciRead(uint8_t addr, uint16_t *resp);
+    bool sciWrite(uint8_t addr, uint8_t* dataToSend, uint16_t size);
 
-    void spiRead(int spi_cs_txn, uint8_t addr, uint8_t *rx);
-    void spiWrite(int spi_cs_txn, uint8_t byte);
-    void spiWrite(int spi_cs_txn, uint8_t *c, uint8_t num);
+    // void spiRead(int spi_cs_txn, uint8_t addr, uint8_t *rx);
+    bool spiWrite(uint8_t *c, uint8_t num);
+
+    bool readyForData();
 
     void reset();
     void softReset();
+    void delay(int ms);
 };
 
 #endif

@@ -17,16 +17,17 @@
 #define SPI_MODE 1 //use SPI mode 1 for VS1053, 0 does not seem to work
 #define MAX_VS1053_SPI_TX_SIZE 18
 
-
 static VS1053 *myself;
 
-SD* sd;
-FILE* currentTrack;
 struct mgos_spi *spi;
+FILE* currentTrack;
+const char* currentTrackname;
+SD* sd;
+mgos_vs1053_callback_t onEndCallback;
+char* onEndUserdata;
 
 
 static void enableInterrupts() {
-    printf("Enable Interrupts on pin %d\n", VS1053_INTERRUPT_PIN);
     mgos_gpio_enable_int(VS1053_INTERRUPT_PIN);
 }
 
@@ -39,8 +40,6 @@ static void interrupt_cb(int pin, void *args) {
 //  printf("Interrupt triggered on pin %d\n", VS1053_INTERRUPT_PIN);
   myself->feedBuffer();
 }
-
-
 
 
 VS1053::VS1053(){
@@ -60,23 +59,65 @@ int VS1053::begin(){
 
     myself = this;
 
+    playingMusic = false;
+
     return 1;
 }
 
-void VS1053::playFile(const char *trackname){
-    currentTrack = mgos_sd_openFile(sd, trackname, "r");
+void VS1053::playFile(const char *trackname, mgos_vs1053_callback_t cb, char* userdata){
+    if(playing()){
+        // Is a file already playing ?
+        closeFile(false);
+    }
 
+    currentTrack = mgos_sd_openFile(sd, trackname, "r");
+    printf("file opened\n");
+
+    currentTrackname = trackname;
+    onEndCallback = cb;
+    onEndUserdata = userdata;
+
+    playingMusic = true;
+
+    //start immediately
     enableInterrupts();
     feedBuffer();
 }
 
-void VS1053::stopPlaying(){};
-void VS1053::pausePlaying(){};
+void VS1053::closeFile(bool executeCallback){
+    printf("Close file %s\n", currentTrackname);
+    playingMusic = false;
+    mgos_sd_closeFile(sd, currentTrack);
+
+    if(executeCallback){
+        printf("Calling callback\n");
+        onEndCallback(onEndUserdata, currentTrackname);
+    }
+}
+
+void VS1053::stopPlaying(){
+    playingMusic = false;
+    currentTrack = NULL;
+};
+void VS1053::pausePlaying(){
+    if(playingMusic){
+        playingMusic = false;
+    }else{
+        playingMusic = true;
+        feedBuffer();
+    }
+};
+
+
 bool VS1053::stopped(){
-  return false;
+  return !playingMusic && currentTrack == NULL;
 };
 bool VS1053::paused(){
-  return false;
+  return !playingMusic && currentTrack != NULL;
+};
+bool VS1053::playing(){
+  printf("playingMusic %d, currentTrack %d", playingMusic, currentTrack != NULL);
+  return playingMusic && currentTrack != NULL;
 };
 
 void VS1053::setVolume(uint8_t left, uint8_t right){
@@ -94,8 +135,15 @@ void VS1053::setVolume(uint8_t left, uint8_t right){
 void VS1053::feedBuffer(){
     uint8_t buf[32];
     int bytesRead;
-    while(readyForData()) {
+    while(playingMusic && readyForData()) {
         bytesRead = mgos_sd_read(sd, currentTrack, buf, 32);
+
+        if (bytesRead == 0) {
+             // must be at the end of the file, wrap it up!
+             closeFile(true);
+             break;
+        }
+
         spiWrite(buf, bytesRead);
     }
 }

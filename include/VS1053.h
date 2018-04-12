@@ -68,17 +68,20 @@
 #define VS1053_DATABUFFERLEN 32
 
 
+typedef void (*mgos_vs1053_callback_t)(void *user_data, const char* trackname);
 
 class VS1053 {
   public:
     VS1053 ();
     int begin();
-    void playFile(const char *trackname);
+    void playFile(const char *trackname, mgos_vs1053_callback_t cb, char* userdata);
+    void closeFile(bool executeCallback);
     void sineTest(uint8_t n, uint16_t ms);
     void stopPlaying();
     void pausePlaying();
     bool stopped();
     bool paused();
+    bool playing();
     void setVolume(uint8_t left, uint8_t right);
 
     void feedBuffer();
@@ -99,6 +102,8 @@ class VS1053 {
     void reset();
     void softReset();
     void delay(int ms);
+
+    volatile bool playingMusic;
 };
 
 #endif

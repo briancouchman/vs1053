@@ -15,9 +15,14 @@ void mgos_vs1053_sineTest(VS1053 *player, int n, int ms){
   player->sineTest((uint8_t) n, (uint8_t) ms);
 }
 
-void mgos_vs1053_playFile(VS1053 *player, char *fileName){
+void mgos_vs1053_playFile(VS1053 *player, char *fileName, mgos_vs1053_callback_t cb, char* userdata){
   if (player == nullptr) return;
-  player->playFile(fileName);
+  player->playFile(fileName, cb, userdata);
+}
+
+void mgos_vs1053_closeFile(VS1053 *player){
+  if (player == nullptr) return;
+  player->closeFile(true);
 }
 
 void mgos_vs1053_stopPlaying(VS1053 *player){
@@ -30,6 +35,11 @@ void mgos_vs1053_pausePlaying(VS1053 *player){
   if (player != nullptr){
     player->pausePlaying();
   }
+}
+
+bool mgos_vs1053_playing(VS1053 *player){
+  if (player == nullptr) return 0;
+  return player->playing();
 }
 
 bool mgos_vs1053_paused(VS1053 *player){
